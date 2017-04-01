@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 
@@ -13,11 +14,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements IndexView.TouchCallBack {
+public class MainActivity extends AppCompatActivity implements IndexView.TouchCallBack,RvItemClickLisenter{
 
-    public static final String[] arrays = {"阿宝", "波波", "曹县", "倾听", "鹅肝", "发财", "倾听", "哈哈", "爱情",
-            "n", "咔咔", "乐视", "倾听", "尼玛", "咪咪", "噢噢", "倾听", "倾听", "倾听", "死了", "李四", "倾听", "李四",
-            "傻吊", "网达标", "哈哈", "啊啊"};
+    public static final String[] arrays = {"阿宝", "B波", "曹县", "倾听", "鹅肝", "发财", "倾听", "哈哈", "爱情",
+            "n", "咔咔", "乐视", "倾听", "尼玛", "咪咪", "噢噢", "a", "A", "倾听", "死了", "李四", "倾听", "李四",
+            "傻吊", "网达标", "哈哈", "b"};
 
     private static final String TAG = "app";
     private RecyclerView rv;
@@ -55,18 +56,19 @@ public class MainActivity extends AppCompatActivity implements IndexView.TouchCa
         Collections.sort(list);
         if (myAdapter == null) {
             myAdapter = new MyAdapter(list, this);
+            myAdapter.setItemClickLisenter(this);
             rv.setAdapter(myAdapter);
         } else {
             myAdapter.notifyDataSetChanged();
         }
     }
 
-
     @Override
     public void callBack(String str, boolean show) {
+        Log.d(TAG, "callBack: "+str);
         if (show) {
             if (tvTag.getVisibility() == View.GONE)
-                tvTag.setVisibility(View.VISIBLE);
+            tvTag.setVisibility(View.VISIBLE);
             tvTag.setText(str);
             int position=((MLinearLayoutManager)rv.getLayoutManager()).findFirstVisibleItemPosition();
             for (int i = 0; i <list.size() ; i++) {
@@ -87,4 +89,8 @@ public class MainActivity extends AppCompatActivity implements IndexView.TouchCa
     }
 
 
+    @Override
+    public void ItemClick(RecyclerView.Adapter adapter, int positon) {
+        Toast.makeText(this,list.get(positon).getUserName(),Toast.LENGTH_SHORT).show();
+    }
 }

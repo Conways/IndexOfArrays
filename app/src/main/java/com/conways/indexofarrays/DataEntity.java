@@ -26,7 +26,6 @@ public class DataEntity implements Comparable<DataEntity> {
     }
 
 
-
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
@@ -49,26 +48,22 @@ public class DataEntity implements Comparable<DataEntity> {
         return 0;
     }
 
-
+    //只支持汉字和拼音，尚未对特殊字符处理
     public String getPinYinNickName() {
+        char value;
+        //昵称为空则使用用户名排序
         if (nickName.equals("") || nickName == null) {
-            char value = userName.charAt(0);
-            if (value > '\u4e00' && value < '\u9fa5') {
-                char valueTemp = PinyinHelper.toHanyuPinyinStringArray(value)[0].charAt(0);
-                valueTemp -= 32;
-                return valueTemp + "";
-            }
-            if (value >= 97 && value <= 122) {
-                value -= 32;
-            }
-            return value + "";
+            value = userName.charAt(0);
+        } else {
+            value = nickName.charAt(0);
         }
-        char value = nickName.charAt(0);
+        //如果是汉字，抽取第一个字拼音首字母并转换成大写
         if (value > '\u4e00' && value < '\u9fa5') {
             char valueTemp = PinyinHelper.toHanyuPinyinStringArray(value)[0].charAt(0);
             valueTemp -= 32;
             return valueTemp + "";
         }
+        //小写转成大写
         if (value >= 97 && value <= 122) {
             value -= 32;
         }

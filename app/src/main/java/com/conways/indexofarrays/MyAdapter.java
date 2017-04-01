@@ -17,6 +17,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.Holder> {
 
     private List<DataEntity> list;
     private Context context;
+    private RvItemClickLisenter itemClickLisenter;
 
 
     public MyAdapter(List<DataEntity> list, Context context) {
@@ -24,6 +25,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.Holder> {
         this.context = context;
     }
 
+    public void setItemClickLisenter(RvItemClickLisenter itemClickLisenter) {
+        this.itemClickLisenter = itemClickLisenter;
+    }
 
     @Override
     public MyAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,15 +35,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.Holder> {
     }
 
     @Override
-    public void onBindViewHolder(MyAdapter.Holder holder, int position) {
+    public void onBindViewHolder(MyAdapter.Holder holder, final int position) {
         holder.tv.setText(list.get(position).getNickName());
-        String head=list.get(position).getPinYinNickName();
-        if (position==0||!list.get(position-1).getPinYinNickName().equals(head)){
+        String head = list.get(position).getPinYinNickName();
+        if (position == 0 || !list.get(position - 1).getPinYinNickName().equals(head)) {
             holder.head.setVisibility(View.VISIBLE);
-            holder.head.setText(head+"");
-        }else{
+            holder.head.setText(head + "");
+        } else {
             holder.head.setVisibility(View.GONE);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickLisenter == null) {
+                    return;
+                }
+                itemClickLisenter.ItemClick(MyAdapter.this, position);
+            }
+        });
     }
 
     @Override
@@ -55,7 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.Holder> {
         public Holder(View itemView) {
             super(itemView);
             tv = (TextView) itemView.findViewById(R.id.tv);
-            head=(TextView) itemView.findViewById(R.id.head);
+            head = (TextView) itemView.findViewById(R.id.head);
         }
     }
 }

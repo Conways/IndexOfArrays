@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -32,10 +33,10 @@ public class IndexView extends View {
 
     private Rect rectText;
 
-    private float touchPositon = 0;
     private int itemPosition=-1;
 
     private TouchCallBack touchCallBack;
+    private String TAG="zzzzzzz";
 
 
     public IndexView(Context context) {
@@ -116,30 +117,34 @@ public class IndexView extends View {
         }
     }
 
-
+    int currentPositon=-1;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                touchPositon = event.getY();
                 if (touchCallBack==null){
                     break;
                 }
-                int positon1=(int)(event.getY()/(mHeight/(arrays.length-1)));
-                touchCallBack.callBack(arrays[positon1],true);
+                currentPositon=(int)(event.getY()/(mHeight/(arrays.length-1)));
+                touchCallBack.callBack(arrays[currentPositon],true);
                 break;
             case MotionEvent.ACTION_MOVE:
-                touchPositon = event.getY();
                 if (event.getY() < 0 || event.getY() > mHeight) {
                     break;
                 }
+
+                int positon=(int)(event.getY()/(mHeight/(arrays.length-1)));
+                if (currentPositon==positon){
+                    break;
+                }
+                currentPositon=positon;
                 if (touchCallBack==null){
                     break;
                 }
-                int positon2=(int)(event.getY()/(mHeight/(arrays.length-1)));
-                touchCallBack.callBack(arrays[positon2],true);
+                touchCallBack.callBack(arrays[currentPositon],true);
                 break;
             case MotionEvent.ACTION_UP:
+                currentPositon=-1;
                 if (touchCallBack==null){
                     break;
                 }
@@ -151,6 +156,7 @@ public class IndexView extends View {
         }
         return true;
     }
+    int i=0;
 
     private int dip2px(float dpValue) {
         final float scale = getContext().getResources().getDisplayMetrics().density;
