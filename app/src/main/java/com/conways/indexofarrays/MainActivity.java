@@ -16,8 +16,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IndexView.TouchCallBack,RvItemClickLisenter{
 
-    public static final String[] arrays = {"阿宝", "B波", "曹县", "倾听", "鹅肝", "发财", "倾听", "哈哈", "爱情",
-            "n", "咔咔", "乐视", "倾听", "尼玛", "咪咪", "噢噢", "a", "A", "倾听", "死了", "李四", "倾听", "李四",
+    public static final String[] arrays = {"阿宝", "B波", "曹县", "倾听", "鹅肝", "发财", ",", "哈哈", "爱情",
+            "n", "咔咔", "乐视", "01", "尼玛", "咪咪", "噢噢", "a", "A", "**", "死了", "李四", "倾听", "李四",
             "傻吊", "网达标", "哈哈", "b"};
 
     private static final String TAG = "app";
