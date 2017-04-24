@@ -156,7 +156,6 @@ public class IndexView extends View {
         }
         return true;
     }
-    int i=0;
 
     private int dip2px(float dpValue) {
         final float scale = getContext().getResources().getDisplayMetrics().density;

@@ -63,11 +63,11 @@ public class DataEntity implements Comparable<DataEntity> {
             valueTemp -= 32;
             return valueTemp + "";
         }
-        //符号和数字
+        //如果是符号或者数字统一转换成#
         if (value>=0&&value<=64||value>=91&&value<=95){
             return "#";
         }
-        //小写转成大写
+        //如果是小写转成大写
         if (value >= 97 && value <= 122) {
             value -= 32;
         }
